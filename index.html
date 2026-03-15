@@ -495,6 +495,62 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* SELECTED DAYS */
+  .day.client-selected {
+    background: rgba(169,27,24,0.15) !important;
+    color: #A91B18 !important;
+    font-weight: 500;
+    outline: 1.5px solid #A91B18;
+    outline-offset: -1px;
+  }
+  .day.client-selected .day-dot {
+    background: #A91B18;
+  }
+
+  /* BOOK BUTTON */
+  .book-btn-wrap {
+    padding: 14px 0 4px;
+    display: none;
+  }
+  .book-btn-wrap.visible { display: block; }
+  .book-btn {
+    width: 100%;
+    padding: 14px;
+    background: #A91B18;
+    color: #F8FAED;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .book-btn:hover { opacity: 0.88; }
+  .book-selected-dates {
+    font-size: 0.78rem;
+    color: #A91B18;
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  /* CONFIRMATION BANNER */
+  .confirm-banner {
+    display: none;
+    background: rgba(169,27,24,0.08);
+    border: 1px solid rgba(169,27,24,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 14px;
+    font-size: 0.82rem;
+    color: #A91B18;
+    text-align: center;
+    line-height: 1.6;
+  }
+  .confirm-banner.visible { display: block; }
+
   /* ADMIN PANEL */
   .admin-trigger {
     position: fixed;
@@ -926,9 +982,9 @@
   const today = new Date();
   today.setHours(0,0,0,0);
 
-  // Selection state
-  let selStart = null; // { year, month, day }
-  let selEnd = null;
+  // Selection state — set of selected timestamps
+  let clientSelected = new Set(); // keys like "2026-4-17"
+
 
   function dateKey(y, m, d) { return `${y}-${m}-${d}`; }
   function getStatus(y, m, d) { return markedDates[dateKey(y, m, d)] || null; }
@@ -985,7 +1041,7 @@
     const hint = document.createElement('div');
     hint.className = 'range-hint';
     hint.id = `hint-${year}-${month}`;
-    hint.textContent = 'Оберіть дату початку події';
+    hint.textContent = 'Натискайте на дати вашої події';
 
     const grid = document.createElement('div');
     grid.className = 'calendar-grid';
@@ -1048,8 +1104,32 @@
       grid.appendChild(el);
     }
 
+    // Book button
+    const bookWrap = document.createElement('div');
+    bookWrap.className = 'book-btn-wrap';
+    bookWrap.id = `book-${year}-${month}`;
+
+    const selectedLabel = document.createElement('div');
+    selectedLabel.className = 'book-selected-dates';
+    selectedLabel.id = `sel-label-${year}-${month}`;
+
+    const bookBtn = document.createElement('button');
+    bookBtn.className = 'book-btn';
+    bookBtn.textContent = 'Забронювати обрані дати';
+    bookBtn.onclick = () => openModal(year, month);
+
+    bookWrap.appendChild(selectedLabel);
+    bookWrap.appendChild(bookBtn);
+
+    const confirmBanner = document.createElement('div');
+    confirmBanner.className = 'confirm-banner';
+    confirmBanner.id = `confirm-${year}-${month}`;
+    confirmBanner.innerHTML = '✓ Ваш запит надіслано.<br>Дати зарезервовано на 24 години — очікуйте підтвердження.';
+
     body.appendChild(hint);
     body.appendChild(grid);
+    body.appendChild(bookWrap);
+    body.appendChild(confirmBanner);
     block.appendChild(toggle);
     block.appendChild(body);
     return block;
@@ -1064,102 +1144,106 @@
     container.appendChild(block);
   }
 
-  // DAY CLICK LOGIC
+  // DAY CLICK LOGIC — toggle individual dates
   function onDayClick(year, month, day) {
-    if (!selStart || (selStart && selEnd)) {
-      // Start fresh selection
-      selStart = { year, month, day };
-      selEnd = null;
-      renderSelection();
-      updateHints('Тепер оберіть дату завершення');
+    const key = dateKey(year, month, day);
+    if (clientSelected.has(key)) {
+      clientSelected.delete(key);
     } else {
-      // Set end — must be >= start
-      const startTs = toTimestamp(selStart.year, selStart.month, selStart.day);
-      const clickTs = toTimestamp(year, month, day);
-
-      if (clickTs < startTs) {
-        // Clicked before start — restart
-        selStart = { year, month, day };
-        selEnd = null;
-        renderSelection();
-        updateHints('Тепер оберіть дату завершення');
-        return;
-      }
-
-      // Check no busy/pending in range
-      if (hasBlockedInRange(selStart, { year, month, day })) {
-        updateHints('В цьому діапазоні є зайняті дати. Спробуйте інший.');
-        return;
-      }
-
-      selEnd = { year, month, day };
-      renderSelection();
-      updateHints('');
-      openModal();
+      clientSelected.add(key);
     }
+    renderClientSelected();
+    updateBookButton(year, month);
   }
 
-  function hasBlockedInRange(start, end) {
-    const startTs = toTimestamp(start.year, start.month, start.day);
-    const endTs = toTimestamp(end.year, end.month, end.day);
-    const oneDay = 86400000;
-    // Check busy dates and their rest days
-    for (const key of Object.keys(markedDates)) {
-      if (markedDates[key] !== 'busy') continue;
-      const [y, m, d] = key.split('-').map(Number);
-      const ts = toTimestamp(y, m, d);
-      // block the busy day itself + buffer days
-      if (ts + oneDay >= startTs && ts - oneDay <= endTs) return true;
-    }
-    return false;
-  }
-
-  function renderSelection() {
-    // Clear all selection classes
-    document.querySelectorAll('.day').forEach(el => {
-      el.classList.remove('selected-start', 'selected-end', 'in-range');
-    });
-
-    if (!selStart) return;
-
-    const startTs = toTimestamp(selStart.year, selStart.month, selStart.day);
-    const endTs = selEnd ? toTimestamp(selEnd.year, selEnd.month, selEnd.day) : null;
-
+  function renderClientSelected() {
     document.querySelectorAll('.day[data-day]').forEach(el => {
       const y = +el.dataset.year, m = +el.dataset.month, d = +el.dataset.day;
-      if (!y) return;
-      const ts = toTimestamp(y, m, d);
-      if (selStart && ts === startTs) el.classList.add('selected-start');
-      if (selEnd && endTs && ts === endTs) el.classList.add('selected-end');
-      if (selEnd && ts > startTs && ts < endTs) el.classList.add('in-range');
+      const key = dateKey(y, m, d);
+      if (clientSelected.has(key)) {
+        el.classList.add('client-selected');
+      } else {
+        el.classList.remove('client-selected');
+      }
     });
   }
 
+  function updateBookButton(year, month) {
+    // Find selected dates for this month
+    const monthKeys = [...clientSelected].filter(k => {
+      const [y, m] = k.split('-').map(Number);
+      return y === year && m === month;
+    }).sort();
+
+    const bookWrap = document.getElementById(`book-${year}-${month}`);
+    const selLabel = document.getElementById(`sel-label-${year}-${month}`);
+    if (!bookWrap) return;
+
+    if (monthKeys.length > 0) {
+      bookWrap.classList.add('visible');
+      const labels = monthKeys.map(k => {
+        const [,, d] = k.split('-').map(Number);
+        return `${d} ${monthNamesGenitive[month-1]}`;
+      });
+      selLabel.textContent = 'Обрано: ' + labels.join(', ');
+    } else {
+      bookWrap.classList.remove('visible');
+      selLabel.textContent = '';
+    }
+  }
+
+  // kept for compatibility
+
   function updateHints(msg) {
-    document.querySelectorAll('.range-hint').forEach(el => el.textContent = msg || 'Оберіть дату початку події');
+    document.querySelectorAll('.range-hint').forEach(el => el.textContent = msg || 'Натискайте на дати вашої події');
   }
 
   // MODAL
-  function openModal() {
-    if (!selStart || !selEnd) return;
-    const sameDay = selStart.year === selEnd.year && selStart.month === selEnd.month && selStart.day === selEnd.day;
-    let dateStr;
-    if (sameDay) {
-      dateStr = `${selStart.day} ${monthNamesGenitive[selStart.month-1]} ${selStart.year}`;
-    } else {
-      dateStr = `${selStart.day} ${monthNamesGenitive[selStart.month-1]} — ${selEnd.day} ${monthNamesGenitive[selEnd.month-1]} ${selEnd.year}`;
-    }
-    document.getElementById('modalDate').textContent = `📅 ${dateStr}`;
+  let currentBookMonth = null;
+
+  function openModal(year, month) {
+    currentBookMonth = { year, month };
+    const monthKeys = [...clientSelected].filter(k => {
+      const [y, m] = k.split('-').map(Number);
+      return y === year && m === month;
+    }).sort();
+
+    const labels = monthKeys.map(k => {
+      const [,, d] = k.split('-').map(Number);
+      return `${d} ${monthNamesGenitive[month-1]}`;
+    });
+
+    document.getElementById('modalDate').textContent = `📅 ${labels.join(', ')} ${year}`;
     document.getElementById('modalInstagramLink').href = `https://ig.me/m/${INSTAGRAM_USERNAME}`;
     document.getElementById('bookingModal').classList.add('active');
   }
 
   function closeModal() {
     document.getElementById('bookingModal').classList.remove('active');
-    selStart = null;
-    selEnd = null;
-    renderSelection();
-    updateHints('');
+
+    // Show confirmation and mark dates as client-pending visually
+    if (currentBookMonth) {
+      const { year, month } = currentBookMonth;
+      const confirm = document.getElementById(`confirm-${year}-${month}`);
+      if (confirm) confirm.classList.add('visible');
+
+      // Mark selected dates with pending dot visually
+      document.querySelectorAll('.day.client-selected').forEach(el => {
+        el.classList.remove('client-selected');
+        el.classList.add('pending');
+        // add dot if not there
+        if (!el.querySelector('.day-dot')) {
+          const dot = document.createElement('div');
+          dot.className = 'day-dot dot-color-pending';
+          el.appendChild(dot);
+        }
+      });
+
+      clientSelected.clear();
+      const bookWrap = document.getElementById(`book-${year}-${month}`);
+      if (bookWrap) bookWrap.classList.remove('visible');
+    }
+    currentBookMonth = null;
   }
 
   document.getElementById('bookingModal').addEventListener('click', function(e) {
