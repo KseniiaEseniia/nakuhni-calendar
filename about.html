@@ -299,6 +299,60 @@
   }
   .approach-text p { margin-bottom: 14px; }
 
+  /* DELEGATE */
+  .delegate-section {
+    padding: 64px 0;
+    background: var(--dark);
+  }
+  .delegate-inner {
+    max-width: 560px;
+  }
+  .delegate-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.5;
+    margin-bottom: 16px;
+  }
+  .delegate-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--linen);
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  .delegate-intro {
+    font-size: 0.92rem;
+    line-height: 1.8;
+    color: var(--cream);
+    opacity: 0.75;
+    margin-bottom: 28px;
+  }
+  .delegate-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .delegate-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--linen);
+    opacity: 0.9;
+  }
+  .delegate-list li::before {
+    content: '—';
+    color: var(--red);
+    font-family: 'Playfair Display', serif;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
   /* CTA */
   .cta-section {
     padding: 72px 0;
@@ -387,15 +441,14 @@
       <div>
         <div class="about-label">Мене звати Ксенія</div>
         <div class="about-text">
-          <p>Я — шеф, який готує з відчуттям смаку життя. Готування на події для мене це не завжди про страви, часом це про відчуття ритму життя, вашої події, вашого відновлення.</p>
-          <p>Легкість і гнучкість моїє кухні додають комфорту, тепла і турботи в кожен день ретриту.</p>
+          <p>Я — шеф виїзної кухні для ретритів та камерних подій, який готує з відчуттям смаку життя. Готування на події для мене це не завжди про страви, часом це про відчуття ритму життя, вашої події, вашого відновлення.</p>
+          <p>Легкість і гнучкість моїх страв додають комфорту, тепла і турботи в кожен день ретриту.</p>
           <p>Я уважно слухаю ваш темп: коли треба більше заземлення — даю тепле й ситне; коли легкості — обираю прості, чисті комбінації; коли важливо не обтяжити тіло — готую максимально м'яко та делікатно.</p>
         </div>
       </div>
       <div>
         <div class="about-text">
-          <p>Я беру кухонну частину події повністю на себе: меню, закупки, організацію процесів і роботу на локації.
-Організатор може зосередитись на програмі та гостях — кухня вже під контролем.<p>
+          <p>Я беру кухонну частину події повністю на себе: меню, закупки, організацію процесів і роботу на локації. Організатор може зосередитись на програмі та гостях — кухня вже під контролем.<p>
           <p>Щоб ваш досвід був цілісним: від практик — до вечері, від вогню в каміні — до аромату спецій у повітрі.</p>
           <p>Для мене важливо, щоб їжа працювала разом з вами — підтримувала, заземлювала, надихала.</p>
         </div>
@@ -491,17 +544,36 @@
   <div class="container">
     <div class="approach-grid">
       <div class="approach-img">
-        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_7118.jpg" alt="Ксенія готує" loading="lazy">
+        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_8103.jpg" alt="Ксенія готує" loading="lazy">
       </div>
       <div>
         <div class="about-label">Як я будую меню</div>
         <div class="approach-text">
-          <p>Меню для мене — це розклад дня, написаний смаком.</p>
+          <p>Меню для мене — це не список страв. Це розклад дня, написаний смаком.</p>
           <p>Я підбираю страви так, щоб вони були в гармонії з програмою: легкі у дні активностей, поживні у дні глибокої роботи, освіжаючі у спеку.</p>
           <p>Використовую ведичні спеції — вони не просто смак, вони стан. Асафетида, куркума, коріандр, зіра — кожна спеція має свій вплив на тіло і настрій.</p>
           <p>Перед кожною подією я дізнаюсь про харчові обмеження, алергії, цілі учасників — і будую меню навколо цього.</p>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELEGATE -->
+<section class="delegate-section">
+  <div class="container">
+    <div class="delegate-inner">
+      <div class="delegate-label">Делегування</div>
+      <h2 class="delegate-title">Що ви можете<br>делегувати мені</h2>
+      <p class="delegate-intro">Я беру на себе кухонну частину події, щоб організатор міг зосередитись на програмі та гостях.</p>
+      <ul class="delegate-list">
+        <li>планування меню під формат події</li>
+        <li>закупівлю продуктів</li>
+        <li>організацію кухні на локації</li>
+        <li>приготування та подачу страв</li>
+        <li>адаптацію меню під умови місця</li>
+        <li>кухонну логістику протягом події</li>
+      </ul>
     </div>
   </div>
 </section>
