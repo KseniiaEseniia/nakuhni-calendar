@@ -321,71 +321,9 @@
 </div>
 
 <div class="gallery-section">
-
-  <!-- ALL -->
-  <div class="tab-content active" id="tab-all">
-    <div class="gallery-grid">
-      <div class="gallery-item wide" onclick="openLightbox(this)">
-        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_7961.jpg" alt="Страва" loading="lazy">
-        <div class="gallery-item-overlay"><span class="gallery-item-label">Ретрит</span></div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox(this)">
-        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_8103.jpg" alt="Страва" loading="lazy">
-        <div class="gallery-item-overlay"><span class="gallery-item-label">Кухня</span></div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox(this)">
-        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_8298.jpg" alt="Подія" loading="lazy">
-        <div class="gallery-item-overlay"><span class="gallery-item-label">Подія</span></div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox(this)">
-        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_9912.jpg" alt="Ретрит" loading="lazy">
-        <div class="gallery-item-overlay"><span class="gallery-item-label">Ретрит</span></div>
-      </div>
-      <!-- Placeholders для майбутніх фото -->
-      <div class="gallery-item">
-        <div class="gallery-placeholder">+ додати фото</div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-placeholder">+ додати фото</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FOOD -->
-  <div class="tab-content" id="tab-food">
-    <div class="gallery-grid">
-      <div class="gallery-item" onclick="openLightbox(this)">
-        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_8103.jpg" alt="Страва" loading="lazy">
-        <div class="gallery-item-overlay"><span class="gallery-item-label">Кухня</span></div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox(this)">
-        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_8298.jpg" alt="Страва" loading="lazy">
-        <div class="gallery-item-overlay"><span class="gallery-item-label">Страва</span></div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-placeholder">+ додати фото</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RETREATS -->
-  <div class="tab-content" id="tab-retreats">
-    <div class="gallery-grid">
-      <div class="gallery-item wide" onclick="openLightbox(this)">
-        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_7961.jpg" alt="Ретрит" loading="lazy">
-        <div class="gallery-item-overlay"><span class="gallery-item-label">Ретрит</span></div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox(this)">
-        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_9912.jpg" alt="Ретрит" loading="lazy">
-        <div class="gallery-item-overlay"><span class="gallery-item-label">Ретрит</span></div>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-placeholder">+ додати фото</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="add-hint">Щоб додати нові фото — завантаж їх у GitHub репозиторій</div>
+  <div class="tab-content active" id="tab-all"></div>
+  <div class="tab-content" id="tab-food"></div>
+  <div class="tab-content" id="tab-retreats"></div>
 </div>
 
 <section class="cta-section">
@@ -397,6 +335,46 @@
 <footer>на кухні · Ксенія · @nakuhni · 2026</footer>
 
 <script>
+  // =====================
+  // ФОТО ПОРТФОЛІО
+  // Додай новий рядок щоб додати фото:
+  // { file: "назва_файлу.jpg", label: "Підпис", category: "all" | "food" | "retreats" }
+  // =====================
+  const photos = [
+    { file: "IMG_7961.jpg",  label: "Ретрит",  category: "retreats" },
+    { file: "IMG_8103.jpg",  label: "Кухня",   category: "food" },
+    { file: "IMG_8298.jpg",  label: "Страва",  category: "food" },
+    { file: "IMG_9912.jpg",  label: "Ретрит",  category: "retreats" },
+  ];
+
+  const BASE = "https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/";
+
+  function buildGallery(containerId, filter) {
+    const container = document.getElementById(containerId);
+    const filtered = filter === 'all' ? photos : photos.filter(p => p.category === filter);
+    if (filtered.length === 0) {
+      container.innerHTML = '<p style="text-align:center;opacity:0.4;padding:40px 0;font-size:0.85rem;">Фото незабаром</p>';
+      return;
+    }
+    const grid = document.createElement('div');
+    grid.className = 'gallery-grid';
+    filtered.forEach((photo, i) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item' + (i === 0 && filter === 'all' ? ' wide' : '');
+      item.innerHTML = `
+        <img src="${BASE}${photo.file}" alt="${photo.label}" loading="lazy">
+        <div class="gallery-item-overlay"><span class="gallery-item-label">${photo.label}</span></div>
+      `;
+      item.addEventListener('click', () => openLightbox(BASE + photo.file));
+      grid.appendChild(item);
+    });
+    container.appendChild(grid);
+  }
+
+  buildGallery('tab-all', 'all');
+  buildGallery('tab-food', 'food');
+  buildGallery('tab-retreats', 'retreats');
+
   function switchTab(name, btn) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -404,10 +382,8 @@
     document.getElementById('tab-' + name).classList.add('active');
   }
 
-  function openLightbox(item) {
-    const img = item.querySelector('img');
-    if (!img) return;
-    document.getElementById('lightboxImg').src = img.src;
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
     document.getElementById('lightbox').classList.add('active');
   }
 
