@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ксенія — Про мене</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #CEE7F3;
+    --dark: #181717;
+    --brown: #3a3535;
+    --red: #A91B18;
+    --light: #b8d8e8;
+    --linen: #F8FAED;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--cream);
+    color: var(--dark);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--linen);
+    border-bottom: 1px solid var(--light);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--dark);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--red); font-style: italic; }
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brown);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--red); }
+  @media (max-width: 500px) {
+    .nav-links { gap: 14px; }
+    .nav-links a { font-size: 0.7rem; letter-spacing: 0.08em; }
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    background: var(--dark);
+    min-height: 90vh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_9912.jpg');
+    background-size: cover;
+    background-position: center top;
+    opacity: 0.75;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(24,23,23,0.85) 0%, rgba(24,23,23,0.1) 60%);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 48px 32px;
+    max-width: 680px;
+  }
+  .hero-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.7;
+    margin-bottom: 12px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 400;
+    color: var(--linen);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .hero-title em { color: var(--cream); font-style: italic; opacity: 0.8; }
+  .hero-sub {
+    font-size: 0.95rem;
+    color: var(--cream);
+    opacity: 0.75;
+    line-height: 1.7;
+    max-width: 420px;
+  }
+
+  /* SECTIONS */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ABOUT */
+  .about-section {
+    padding: 72px 0;
+    background: var(--linen);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  @media (max-width: 600px) {
+    .about-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+  .about-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+  .about-text {
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: var(--brown);
+  }
+  .about-text p { margin-bottom: 14px; }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--dark);
+    line-height: 1.7;
+    padding-left: 20px;
+    border-left: 2px solid var(--red);
+    margin-top: 20px;
+  }
+
+  /* TIMELINE */
+  .timeline-section {
+    padding: 72px 0;
+    background: var(--dark);
+  }
+  .timeline-section .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.5;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  @media (max-width: 600px) {
+    .timeline-grid { grid-template-columns: 1fr; gap: 0; }
+  }
+  .timeline-item {
+    padding: 36px 28px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+  }
+  .timeline-item:last-child { border-right: none; }
+  @media (max-width: 600px) {
+    .timeline-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .timeline-item:last-child { border-bottom: none; }
+  }
+  .timeline-year {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--linen);
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+    opacity: 0.9;
+  }
+  .timeline-text {
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: var(--cream);
+    opacity: 0.65;
+  }
+
+  /* FORMATS */
+  .formats-section {
+    padding: 72px 0;
+    background: var(--cream);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    font-size: 0.85rem;
+    color: var(--brown);
+    opacity: 0.65;
+    margin-bottom: 36px;
+    letter-spacing: 0.05em;
+  }
+  .accordion-item {
+    border-bottom: 1px solid var(--light);
+  }
+  .accordion-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 18px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dark);
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+  .accordion-btn:hover { color: var(--red); }
+  .accordion-arrow {
+    font-size: 0.8rem;
+    color: var(--brown);
+    opacity: 0.45;
+    transition: transform 0.3s;
+  }
+  .accordion-item.open .accordion-arrow { transform: rotate(180deg); }
+  .accordion-body {
+    display: none;
+    padding: 0 0 20px;
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: var(--brown);
+    max-width: 560px;
+  }
+  .accordion-item.open .accordion-body { display: block; }
+
+  /* APPROACH */
+  .approach-section {
+    padding: 72px 0;
+    background: var(--linen);
+  }
+  .approach-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (max-width: 600px) {
+    .approach-grid { grid-template-columns: 1fr; }
+  }
+  .approach-img {
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    background: var(--light);
+  }
+  .approach-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .approach-text {
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: var(--brown);
+  }
+  .approach-text p { margin-bottom: 14px; }
+
+  /* CTA */
+  .cta-section {
+    padding: 72px 0;
+    background: var(--red);
+    text-align: center;
+  }
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--linen);
+    margin-bottom: 12px;
+  }
+  .cta-sub {
+    font-size: 0.88rem;
+    color: var(--linen);
+    opacity: 0.75;
+    margin-bottom: 32px;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cta-btn {
+    padding: 14px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .cta-btn-primary {
+    background: var(--linen);
+    color: var(--red);
+    font-weight: 500;
+  }
+  .cta-btn-secondary {
+    background: transparent;
+    color: var(--linen);
+    border: 1px solid rgba(248,250,237,0.4);
+  }
+  .cta-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 0.75rem;
+    color: var(--brown);
+    opacity: 0.5;
+    letter-spacing: 0.08em;
+    background: var(--linen);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">на <span>кухні</span></a>
+  <ul class="nav-links">
+    <li><a href="about.html" class="active">Про мене</a></li>
+    <li><a href="portfolio.html">Портфоліо</a></li>
+    <li><a href="index.html">Календар</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Based in Ukraine</div>
+    <h1 class="hero-title">Тепла, легка,<br><em>турботлива</em></h1>
+    <p class="hero-sub">Кухня для ретритів та подій — від продуманого меню до спокійної роботи на локації.</p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <div class="about-label">Мене звати Ксенія</div>
+        <div class="about-text">
+          <p>Я — шеф, який готує з відчуттям смаку життя. Готування на події для мене це не завжди про страви, часом це про відчуття ритму життя, вашої події, вашого відновлення.</p>
+          <p>Легкість і гнучкість моїх страв додають комфорту, тепла і турботи в кожен день ретриту.</p>
+          <p>Я уважно слухаю ваш темп: коли треба більше заземлення — даю тепле й ситне; коли легкості — обираю прості, чисті комбінації; коли важливо не обтяжити тіло — готую максимально м'яко та делікатно.</p>
+        </div>
+      </div>
+      <div>
+        <div class="about-text">
+          <p>Щоб ваш досвід був цілісним: від практик — до вечері, від вогню в каміні — до аромату спецій у повітрі.</p>
+          <p>Для мене важливо, щоб їжа працювала разом з вами — підтримувала, заземлювала, надихала.</p>
+        </div>
+        <div class="about-quote">
+          І щоб після кожного прийому їжі залишалося лише одне відчуття: «Мені добре».
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section">
+  <div class="container">
+    <div class="section-label">Мій шлях</div>
+    <div class="timeline-grid">
+      <div class="timeline-item">
+        <div class="timeline-year">2020</div>
+        <div class="timeline-text">Вперше потрапила на вегетаріанську кухню в Карпатах. Поки що тільки волонтером. Знайомлюсь з різними шефами та їх підходами.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2022</div>
+        <div class="timeline-text">Перші самостійні події у Карпатах. Розробка меню, закупки, команда, неймовірний досвід та розуміння, що я можу дати.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2025</div>
+        <div class="timeline-text">Довіра та нова впевненість. Дитячі табори, фестивалі, камерні зустрічі, весілля. Все з турботою.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATS -->
+<section class="formats-section">
+  <div class="container">
+    <div class="section-title">Формати, з якими я працюю</div>
+    <div class="section-sub">Обираємо формат разом під вашу подію</div>
+
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        Кухня на ретритах (3–7 днів)
+        <span class="accordion-arrow">▼</span>
+      </button>
+      <div class="accordion-body">
+        Повний супровід харчування на виїзному ретриті. Розробка меню під програму, закупки, приготування сніданків, обідів і вечерь. Вегетаріанська кухня з ведичними спеціями для груп 5–12 людей.
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        Меню та супровід одноденних подій
+        <span class="accordion-arrow">▼</span>
+      </button>
+      <div class="accordion-body">
+        Фестивалі, воркшопи, одноденні ретрити. Продумане меню під формат дня, онлайн-меню для організаторів, тепле нагадування учасникам у чат.
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        Фуршети
+        <span class="accordion-arrow">▼</span>
+      </button>
+      <div class="accordion-body">
+        Легкі вегетаріанські фуршети для камерних зустрічей, весіль та корпоративів. Страви що виглядають і смакують як мистецтво.
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        Розробка меню
+        <span class="accordion-arrow">▼</span>
+      </button>
+      <div class="accordion-body">
+        Індивідуальна розробка меню під програму вашого заходу, харчові обмеження учасників та сезонність продуктів.
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAccordion(this)">
+        Консультації з харчування під програму ретриту
+        <span class="accordion-arrow">▼</span>
+      </button>
+      <div class="accordion-body">
+        Допомагаю організаторам підібрати харчування яке підсилює програму: детокс, відновлення, енергія, глибока робота.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="approach-section">
+  <div class="container">
+    <div class="approach-grid">
+      <div class="approach-img">
+        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_8103.jpg" alt="Ксенія готує" loading="lazy">
+      </div>
+      <div>
+        <div class="about-label">Як я будую меню</div>
+        <div class="approach-text">
+          <p>Меню для мене — це не список страв. Це розклад дня, написаний смаком.</p>
+          <p>Я підбираю страви так, щоб вони були в гармонії з програмою: легкі у дні активностей, поживні у дні глибокої роботи, освіжаючі у спеку.</p>
+          <p>Використовую ведичні спеції — вони не просто смак, вони стан. Асафетида, куркума, коріандр, зіра — кожна спеція має свій вплив на тіло і настрій.</p>
+          <p>Перед кожною подією я дізнаюсь про харчові обмеження, алергії, цілі учасників — і будую меню навколо цього.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-title">Готова до вашої події</div>
+    <div class="cta-sub">Перевірте вільні дати і напишіть мені</div>
+    <div class="cta-buttons">
+      <a href="index.html" class="cta-btn cta-btn-primary">Переглянути календар</a>
+      <a href="portfolio.html" class="cta-btn cta-btn-secondary">Портфоліо</a>
+    </div>
+  </div>
+</section>
+
+<footer>на кухні · Ксенія · @nakuhni · 2026</footer>
+
+<script>
+  function toggleAccordion(btn) {
+    const item = btn.closest('.accordion-item');
+    item.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
