@@ -700,6 +700,53 @@
     border-top: 1px solid var(--light-brown);
     margin: 16px 0;
   }
+
+  /* SITE NAV */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: #F8FAED;
+    border-bottom: 1px solid #b8d8e8;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .site-nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #181717;
+    text-decoration: none;
+    font-weight: 400;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .site-nav-logo span { color: #A91B18; font-style: italic; }
+  .site-nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    flex-wrap: nowrap;
+  }
+  .site-nav-links a {
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #3a3535;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .site-nav-links a:hover,
+  .site-nav-links a.active { color: #A91B18; font-weight: 500; }
+  @media (max-width: 480px) {
+    .site-nav { padding: 0 14px; }
+    .site-nav-logo { font-size: 0.95rem; }
+    .site-nav-links { gap: 12px; }
+    .site-nav-links a { font-size: 0.68rem; letter-spacing: 0.08em; }
+  }
 </style>
 </head>
 <body>
@@ -727,12 +774,12 @@
 </div>
 
 <!-- HEADER -->
-<nav style="position:sticky;top:0;z-index:50;background:#F8FAED;border-bottom:1px solid #b8d8e8;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;">
-  <a href="index.html" style="font-family:'Playfair Display',serif;font-size:1.15rem;color:#181717;text-decoration:none;font-weight:400;letter-spacing:0.01em;">на <span style="color:#A91B18;font-style:italic;">кухні</span></a>
-  <ul style="display:flex;gap:24px;list-style:none;">
-    <li><a href="about.html" style="text-decoration:none;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:#3a3535;">Про мене</a></li>
-    <li><a href="portfolio.html" style="text-decoration:none;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:#3a3535;">Портфоліо</a></li>
-    <li><a href="index.html" style="text-decoration:none;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:#A91B18;font-weight:500;">Календар</a></li>
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-logo">на <span>кухні</span></a>
+  <ul class="site-nav-links">
+    <li><a href="about.html">Про мене</a></li>
+    <li><a href="portfolio.html">Портфоліо</a></li>
+    <li><a href="index.html" class="active">Календар</a></li>
   </ul>
 </nav>
 
