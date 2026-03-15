@@ -7,13 +7,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #f7f2eb;
-    --dark: #1a1612;
-    --brown: #6b4c35;
-    --terracotta: #c4784a;
-    --sage: #4a7a5a;
-    --gold: #b8860b;
-    --light-brown: #e8ddd0;
+    --cream: #CEE7F3;
+    --dark: #181717;
+    --brown: #3a3535;
+    --terracotta: #A91B18;
+    --sage: #A91B18;
+    --gold: #A91B18;
+    --light-brown: #b8d8e8;
+    --aperol: #A91B18;
+    --mimosa: #e8c4c4;
+    --linen: #F8FAED;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -35,7 +38,7 @@
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--terracotta), #c9a84c, var(--sage));
+    background: linear-gradient(90deg, #A91B18, #CEE7F3, #181717);
   }
   .logo {
     font-family: 'Playfair Display', serif;
@@ -99,7 +102,7 @@
   }
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
   .dot-busy { background: var(--terracotta); }
-  .dot-pending { background: #c9a84c; }
+  .dot-pending { background: #e8c4c4; }
 
   /* MONTH ACCORDION */
   .month-block {
@@ -110,7 +113,7 @@
   }
   .month-toggle {
     width: 100%;
-    background: white;
+    background: #F8FAED;
     border: none;
     cursor: pointer;
     padding: 18px 22px;
@@ -123,7 +126,7 @@
     color: var(--dark);
     transition: background 0.2s;
   }
-  .month-toggle:hover { background: #fdf8f3; }
+  .month-toggle:hover { background: #e8f4f9; }
   .month-toggle-left {
     display: flex;
     align-items: center;
@@ -141,7 +144,7 @@
   .month-body {
     display: none;
     padding: 4px 16px 20px;
-    background: white;
+    background: #F8FAED;
   }
   .month-block.open .month-body { display: block; }
 
@@ -184,27 +187,27 @@
 
   /* Free — clickable */
   .day.free {
-    background: var(--cream);
+    background: #F8FAED;
     color: var(--dark);
     font-weight: 500;
     cursor: pointer;
     transition: background 0.15s, transform 0.12s;
   }
   .day.free:hover {
-    background: #ede5d8;
+    background: #e0e8f0;
     transform: scale(1.07);
   }
 
   /* Selected range */
   .day.selected-start,
   .day.selected-end {
-    background: var(--dark) !important;
-    color: var(--cream) !important;
+    background: #A91B18 !important;
+    color: #F8FAED !important;
     transform: scale(1.05);
   }
   .day.in-range {
-    background: #d6cfc5 !important;
-    color: var(--dark) !important;
+    background: #dceef7 !important;
+    color: #181717 !important;
     border-radius: 0;
   }
   .day.selected-start { border-radius: 7px 0 0 7px; }
@@ -213,7 +216,7 @@
 
   /* Busy */
   .day.busy {
-    background: rgba(196,120,74,0.1);
+    background: rgba(169,27,24,0.12);
     color: var(--terracotta);
     font-weight: 500;
     cursor: not-allowed;
@@ -221,8 +224,8 @@
 
   /* Pending */
   .day.pending {
-    background: rgba(201,168,76,0.12);
-    color: #9a7010;
+    background: rgba(169,27,24,0.1);
+    color: #A91B18;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.15s, transform 0.12s;
@@ -238,7 +241,7 @@
     font-size: 0.82rem;
   }
 
-  .day.today { outline: 2px solid var(--terracotta); outline-offset: -2px; }
+  .day.today { outline: 2px solid #A91B18; outline-offset: -2px; }
 
   .day-dot {
     width: 5px; height: 5px;
@@ -246,7 +249,7 @@
     flex-shrink: 0;
   }
   .dot-color-busy { background: var(--terracotta); }
-  .dot-color-pending { background: #c9a84c; }
+  .dot-color-pending { background: #e8c4c4; }
 
   /* Range hint */
   .range-hint {
@@ -269,7 +272,7 @@
     color: var(--dark);
   }
   .event-card {
-    background: white;
+    background: #F8FAED;
     border-radius: 12px;
     padding: 18px 20px;
     margin-bottom: 10px;
@@ -289,7 +292,7 @@
   }
   .status-busy { background: var(--terracotta); }
   .status-free { background: var(--sage); }
-  .status-pending { background: #c9a84c; }
+  .status-pending { background: #e8c4c4; }
   .event-info { flex: 1; }
   .event-dates {
     font-size: 0.78rem;
@@ -323,16 +326,17 @@
     border-radius: 12px;
     font-weight: 500;
   }
-  .label-busy { background: rgba(196,120,74,0.12); color: var(--terracotta); }
+  .label-busy { background: rgba(169,27,24,0.15); color: var(--terracotta); }
   .label-free { background: rgba(74,122,90,0.12); color: var(--sage); }
-  .label-pending { background: rgba(201,168,76,0.18); color: #8a6c10; }
+  .label-pending { background: rgba(169,27,24,0.12); color: #A91B18; }
 
   /* PRICING */
   .pricing-section {
     margin: 0 0 40px;
     padding: 28px;
-    border: 1px solid var(--light-brown);
+    border: 1px solid #b8d8e8;
     border-radius: 12px;
+    background: #F8FAED;
   }
   .pricing-title {
     font-family: 'Playfair Display', serif;
@@ -353,7 +357,7 @@
 
   /* CONTACT */
   .contact-section {
-    background: var(--dark);
+    background: #2c2420;
     border-radius: 16px;
     padding: 36px 28px;
     text-align: center;
@@ -393,10 +397,10 @@
     font-weight: 400;
   }
   .btn-instagram {
-    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366);
+    background: linear-gradient(135deg, #A91B18, #7a1210);
     color: white;
   }
-  .btn-telegram { background: #2AABEE; color: white; }
+  .btn-telegram { background: #181717; color: #F8FAED; }
   .contact-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.35);
@@ -416,7 +420,7 @@
   }
   .modal-overlay.active { display: flex; }
   .modal {
-    background: var(--cream);
+    background: #F8FAED;
     border-radius: 16px;
     padding: 36px 28px;
     max-width: 420px;
@@ -464,7 +468,7 @@
     cursor: pointer;
   }
   .modal-btn-instagram {
-    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366);
+    background: linear-gradient(135deg, #F7B557, #E27921, #C1521E);
     color: white;
   }
   .modal-btn-instagram:hover { opacity: 0.9; transform: translateY(-1px); }
@@ -498,7 +502,7 @@
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: var(--dark);
+    background: #2c2420;
     border: none;
     cursor: pointer;
     display: flex;
@@ -524,7 +528,7 @@
   .admin-overlay.active { display: flex; }
 
   .admin-panel {
-    background: var(--cream);
+    background: #F8FAED;
     border-radius: 16px;
     padding: 32px 28px;
     max-width: 460px;
@@ -557,7 +561,7 @@
     border-radius: 8px;
     font-family: 'Jost', sans-serif;
     font-size: 0.9rem;
-    background: white;
+    background: #F8FAED;
     color: var(--dark);
     margin-bottom: 12px;
     outline: none;
@@ -569,7 +573,7 @@
     padding: 12px;
     border: none;
     border-radius: 8px;
-    background: var(--dark);
+    background: #2c2420;
     color: var(--cream);
     font-family: 'Jost', sans-serif;
     font-size: 0.85rem;
@@ -626,7 +630,7 @@
   }
   .admin-add-btn {
     padding: 10px 16px;
-    background: var(--dark);
+    background: #2c2420;
     color: var(--cream);
     border: none;
     border-radius: 8px;
@@ -659,7 +663,7 @@
     border-radius: 8px;
     margin-bottom: 5px;
     font-size: 0.85rem;
-    background: white;
+    background: #F8FAED;
   }
   .admin-date-row-left { display: flex; align-items: center; gap: 10px; }
   .admin-badge {
@@ -670,8 +674,8 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
-  .badge-busy { background: rgba(196,120,74,0.15); color: var(--terracotta); }
-  .badge-pending { background: rgba(201,168,76,0.18); color: #8a6c10; }
+  .badge-busy { background: rgba(169,27,24,0.18); color: var(--terracotta); }
+  .badge-pending { background: rgba(169,27,24,0.12); color: #A91B18; }
   .admin-delete-btn {
     background: none;
     border: none;
@@ -849,10 +853,7 @@
   const defaultDates = {
     "2026-4-17": "pending",
     "2026-4-18": "pending",
-    "2026-4-19": "pending",
-    "2026-4-20": "busy",
-    "2026-3-21": "busy",
-    "2026-5-1": "pending"
+    "2026-4-19": "pending"
   };
   let markedDates = JSON.parse(localStorage.getItem('nakuhni_dates') || 'null') || {...defaultDates};
 
@@ -914,7 +915,7 @@
       <div class="month-toggle-left">
         <span>${monthNames[month-1]} <span style="font-family:'Jost',sans-serif;font-size:0.78rem;opacity:0.45;letter-spacing:0.1em">${year}</span></span>
         <div class="month-dots">
-          ${hasPending ? '<div class="month-dot" style="background:#c9a84c"></div>' : ''}
+          ${hasPending ? '<div class="month-dot" style="background:#e8c4c4"></div>' : ''}
           ${hasBusy ? '<div class="month-dot" style="background:var(--terracotta)"></div>' : ''}
         </div>
       </div>
