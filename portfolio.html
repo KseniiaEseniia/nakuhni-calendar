@@ -191,7 +191,6 @@
   }
   .gallery-item:hover .gallery-item-label { opacity: 1; }
 
-  /* Placeholder for missing photos */
   .gallery-placeholder {
     width: 100%;
     height: 100%;
@@ -276,7 +275,6 @@
     .lightbox-nav.next { right: 6px; }
   }
 
-  /* ADD PHOTO HINT */
   .add-hint {
     text-align: center;
     padding: 40px 0 0;
@@ -321,6 +319,106 @@
   }
   .cta-btn:hover { transform: translateY(-2px); opacity: 0.9; }
 
+  /* REVIEWS CAROUSEL */
+  .reviews-carousel {
+    max-width: 680px;
+    margin: 0 auto;
+    position: relative;
+    padding: 16px 0 40px;
+  }
+  .review-slide {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .review-slide.active { display: block; }
+  .review-card {
+    background: var(--linen);
+    border-radius: 16px;
+    padding: 36px 40px;
+    position: relative;
+  }
+  @media (max-width: 500px) {
+    .review-card { padding: 28px 24px; }
+  }
+  .review-quote-mark {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: var(--red);
+    opacity: 0.2;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .review-text {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--brown);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+  .review-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .review-author-line {
+    width: 24px;
+    height: 1px;
+    background: var(--red);
+    flex-shrink: 0;
+  }
+  .review-author-name {
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dark);
+    font-weight: 500;
+  }
+  .review-author-role {
+    font-size: 0.78rem;
+    color: var(--brown);
+    opacity: 0.6;
+    margin-top: 2px;
+  }
+  .reviews-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .reviews-nav-btn {
+    background: none;
+    border: 1px solid var(--light);
+    color: var(--brown);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .reviews-nav-btn:hover {
+    background: var(--dark);
+    color: white;
+    border-color: var(--dark);
+  }
+  .reviews-dots {
+    display: flex;
+    gap: 8px;
+  }
+  .reviews-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--light);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .reviews-dot.active { background: var(--red); }
+
   footer {
     text-align: center;
     padding: 24px;
@@ -362,12 +460,14 @@
   <button class="tab-btn active" onclick="switchTab('all', this)">Все</button>
   <button class="tab-btn" onclick="switchTab('food', this)">Страви</button>
   <button class="tab-btn" onclick="switchTab('retreats', this)">Ретрити</button>
+  <button class="tab-btn" onclick="switchTab('reviews', this)">Відгуки</button>
 </div>
 
 <div class="gallery-section">
   <div class="tab-content active" id="tab-all"></div>
   <div class="tab-content" id="tab-food"></div>
   <div class="tab-content" id="tab-retreats"></div>
+  <div class="tab-content" id="tab-reviews"><div class="reviews-carousel" id="reviews-carousel"></div></div>
 </div>
 
 <section class="cta-section">
@@ -446,7 +546,6 @@
     currentFilter = name;
   }
 
-  // LIGHTBOX
   function openLightbox(filter, index) {
     currentFilter = filter;
     currentList = getFiltered(filter);
@@ -476,7 +575,6 @@
     document.getElementById('lightbox').classList.remove('active');
   }
 
-  // Keyboard navigation
   document.addEventListener('keydown', e => {
     if (!document.getElementById('lightbox').classList.contains('active')) return;
     if (e.key === 'Escape') closeLightbox();
@@ -484,7 +582,6 @@
     if (e.key === 'ArrowLeft') navigateLightbox(-1);
   });
 
-  // Swipe support
   let touchStartX = 0;
   document.getElementById('lightbox').addEventListener('touchstart', e => {
     touchStartX = e.touches[0].clientX;
@@ -494,15 +591,133 @@
     if (Math.abs(diff) > 50) navigateLightbox(diff > 0 ? 1 : -1);
   }, { passive: true });
 
-  // Click outside image to close
   document.getElementById('lightbox').addEventListener('click', e => {
-    if (e.target === document.getElementById('lightbox') || e.target === document.getElementById('lightboxImg')) {
-      if (e.target === document.getElementById('lightbox')) closeLightbox();
-    }
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
   });
 
-  // Smooth transition for image
   document.getElementById('lightboxImg').style.transition = 'opacity 0.15s ease';
+
+  // =====================
+  // ВІДГУКИ
+  // Додай новий об'єкт щоб додати відгук:
+  // { text: "Текст відгуку", name: "Ім'я", role: "Організатор ретриту, Карпати" }
+  // =====================
+  const reviews = [
+    {
+      text: "Досі топчу салати з кабачків за твоєю рекомендацією і рецептами 🥰",
+      name: "Учасниця ретриту",
+      role: ""
+    },
+    {
+      text: "Ці творіння — страви, були дуже цінною частиною ретриту. Твоя їжа побудила в мені нове бажання творити у себе на кухні. Дякую, що нагадала про те, що їжа не лише про базову потребу, а прояв любові, можливість творити, наповнювати сім'ю насолодою і задоволенням.",
+      name: "Учасниця ретриту",
+      role: ""
+    },
+    {
+      text: "Кожен прийом їжі — як священна церемонія, це було неймовірно 🫶🏼",
+      name: "Учасниця ретриту",
+      role: ""
+    },
+    {
+      text: "Ксеню, ти чарівниця ❤️‍🔥 Дякую тобі за цей досвід 🙏🏻",
+      name: "Учасниця ретриту",
+      role: ""
+    },
+    {
+      text: "Ксеню дякую тобі за твої турботливі руки і за красиву та смачну їжу, обіймаю 🤍",
+      name: "Учасниця ретриту",
+      role: ""
+    },
+    {
+      text: "Найкраща! ❤️",
+      name: "Учасниця ретриту",
+      role: ""
+    },
+    {
+      text: "Це справді твоє — феноменальне занурення в процес і неперевершені страви! ✨",
+      name: "Учасниця ретриту",
+      role: ""
+    },
+  ];
+
+  let currentReview = 0;
+
+  function buildReviews() {
+    const carousel = document.getElementById('reviews-carousel');
+    if (!carousel) return;
+
+    reviews.forEach((r, i) => {
+      const slide = document.createElement('div');
+      slide.className = 'review-slide' + (i === 0 ? ' active' : '');
+      slide.innerHTML = `
+        <div class="review-card">
+          <div class="review-quote-mark">"</div>
+          <div class="review-text">${r.text}</div>
+          <div class="review-author">
+            <div class="review-author-line"></div>
+            <div>
+              <div class="review-author-name">${r.name}</div>
+              ${r.role ? `<div class="review-author-role">${r.role}</div>` : ""}
+            </div>
+          </div>
+        </div>
+      `;
+      carousel.appendChild(slide);
+    });
+
+    // Nav
+    const nav = document.createElement('div');
+    nav.className = 'reviews-nav';
+    nav.innerHTML = `
+      <button class="reviews-nav-btn" onclick="changeReview(-1)">&#8592;</button>
+      <div class="reviews-dots" id="reviews-dots"></div>
+      <button class="reviews-nav-btn" onclick="changeReview(1)">&#8594;</button>
+    `;
+    carousel.appendChild(nav);
+
+    updateDots();
+  }
+
+  function updateDots() {
+    const dots = document.getElementById('reviews-dots');
+    if (!dots) return;
+    dots.innerHTML = reviews.map((_, i) =>
+      `<div class="reviews-dot${i === currentReview ? ' active' : ''}" onclick="goToReview(${i})"></div>`
+    ).join('');
+  }
+
+  function changeReview(dir) {
+    currentReview = (currentReview + dir + reviews.length) % reviews.length;
+    showReview();
+  }
+
+  function goToReview(i) {
+    currentReview = i;
+    showReview();
+  }
+
+  function showReview() {
+    document.querySelectorAll('.review-slide').forEach((s, i) => {
+      s.classList.toggle('active', i === currentReview);
+    });
+    updateDots();
+  }
+
+  // Swipe for reviews
+  let reviewTouchStart = 0;
+  document.addEventListener('touchstart', e => {
+    if (document.getElementById('tab-reviews')?.classList.contains('active')) {
+      reviewTouchStart = e.touches[0].clientX;
+    }
+  }, { passive: true });
+  document.addEventListener('touchend', e => {
+    if (document.getElementById('tab-reviews')?.classList.contains('active')) {
+      const diff = reviewTouchStart - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) changeReview(diff > 0 ? 1 : -1);
+    }
+  }, { passive: true });
+
+  buildReviews();
 </script>
 </body>
 </html>
