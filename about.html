@@ -177,11 +177,11 @@
   }
   .timeline-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 2px;
   }
   @media (max-width: 600px) {
-    .timeline-grid { grid-template-columns: 1fr; gap: 0; }
+    .timeline-grid { grid-template-columns: repeat(2, 1fr); gap: 0; }
   }
   .timeline-item {
     padding: 28px 24px;
@@ -190,8 +190,10 @@
   }
   .timeline-item:last-child { border-right: none; }
   @media (max-width: 600px) {
-    .timeline-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 24px 16px; text-align: center; }
-    .timeline-item:last-child { border-bottom: none; }
+    .timeline-item { padding: 20px 12px; }
+    .timeline-item:nth-child(even) { border-right: none; }
+    .timeline-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.1); }
+    .timeline-item:nth-child(3), .timeline-item:nth-child(4) { border-top: 1px solid rgba(255,255,255,0.1); }
   }
   .timeline-year {
     font-family: 'Playfair Display', serif;
@@ -205,6 +207,20 @@
     font-size: 0.88rem;
     line-height: 1.75;
     color: #e0e0e0;
+  }
+
+  /* STATS */
+  .stats-col { border-left: none; }
+  .stats-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .stats-details div {
+    font-size: 0.82rem;
+    color: #c0c0c0;
+    letter-spacing: 0.04em;
   }
 
   /* FORMATS */
@@ -355,9 +371,15 @@
 
   /* PRICING SECTION */
   .pricing-about-section {
-    padding: 64px 0;
+    padding: 40px 0;
     background: var(--linen);
     border-top: 1px solid var(--light);
+  }
+  @media (max-width: 600px) {
+    .pricing-about-section { padding: 32px 0; }
+  }
+  .pricing-section-label {
+    margin-bottom: 6px;
   }
   .pricing-about-inner {
     max-width: 580px;
@@ -374,8 +396,9 @@
     display: inline-flex;
     align-items: baseline;
     gap: 8px;
-    background: var(--dark);
-    color: var(--linen);
+    background: rgba(24,23,23,0.08);
+    border: 1px solid rgba(24,23,23,0.15);
+    color: var(--dark);
     padding: 14px 24px;
     border-radius: 8px;
     margin-top: 8px;
@@ -384,12 +407,22 @@
     font-family: 'Playfair Display', serif;
     font-size: 1.6rem;
     font-weight: 400;
-    color: #F8FAED;
+    color: var(--dark);
   }
   .pricing-highlight-note {
     font-size: 0.78rem;
-    opacity: 0.6;
+    opacity: 0.55;
     letter-spacing: 0.05em;
+    color: var(--brown);
+  }
+
+  .pricing-section-label {
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    font-weight: 500;
+    margin-bottom: 6px;
   }
 
   /* CTA */
@@ -467,7 +500,6 @@
   <div class="hero-img"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-tag">Based in Ukraine</div>
     <h1 class="hero-title">Тепла, легка,<br><em>турботлива</em></h1>
     <p class="hero-sub">Кухня для ретритів та подій — від продуманого меню до спокійної роботи на локації.</p>
   </div>
@@ -481,15 +513,13 @@
         <div class="about-label">Мене звати Ксенія</div>
         <div class="about-text">
           <p>Я — шеф виїзної кухні для ретритів та камерних подій, який готує з відчуттям смаку життя. Готування на події для мене це не завжди про страви, часом це про відчуття ритму життя, вашої події, вашого відновлення.</p>
-          <p>Легкість і гнучкість моїх страв додають комфорту, тепла і турботи в кожен день ретриту.</p>
+          <p>Я беру кухонну частину події повністю на себе: меню, закупки, організацію процесів і роботу на локації. Організатор може зосередитись на програмі та гостях — кухня вже під контролем.</p>
           <p>Я уважно слухаю ваш темп: коли треба більше заземлення — даю тепле й ситне; коли легкості — обираю прості, чисті комбінації; коли важливо не обтяжити тіло — готую максимально м'яко та делікатно.</p>
         </div>
       </div>
       <div>
         <div class="about-text">
-          <p>Я беру кухонну частину події повністю на себе: меню, закупки, організацію процесів і роботу на локації. Організатор може зосередитись на програмі та гостях — кухня вже під контролем.</p>
           <p>Щоб ваш досвід був цілісним: від практик — до вечері, від вогню в каміні — до аромату спецій у повітрі.</p>
-          <p>Для мене важливо, щоб їжа працювала разом з вами — підтримувала, заземлювала, надихала.</p>
         </div>
         <div class="about-quote">
           І щоб після кожного прийому їжі залишалося лише одне відчуття: «Мені добре».
@@ -502,7 +532,7 @@
 <!-- TIMELINE -->
 <section class="timeline-section">
   <div class="container">
-    <div class="section-label">Мій шлях</div>
+    <div class="section-label">Мій досвід</div>
     <div class="timeline-grid">
       <div class="timeline-item">
         <div class="timeline-year">2020</div>
@@ -516,7 +546,18 @@
         <div class="timeline-year">2025</div>
         <div class="timeline-text">Довіра та нова впевненість. Дитячі табори, фестивалі, камерні зустрічі, весілля. Все з турботою.</div>
       </div>
+      <div class="timeline-item stats-col">
+        <div class="timeline-year">4 роки</div>
+        <div class="timeline-text">на кухні</div>
+        <div class="stats-details">
+          <div>15+ ретритів</div>
+          <div>10+ фестивалів</div>
+          <div>2 весілля</div>
+          <div>82+ тис. порцій</div>
+        </div>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -558,45 +599,16 @@
 
     <div class="accordion-item">
       <button class="accordion-btn" onclick="toggleAccordion(this)">
-        Розробка меню
+        Фестивальна кухня
         <span class="accordion-arrow">▼</span>
       </button>
       <div class="accordion-body">
-        Індивідуальна розробка меню під програму вашого заходу, харчові обмеження учасників та сезонність продуктів.
-      </div>
-    </div>
-
-    <div class="accordion-item">
-      <button class="accordion-btn" onclick="toggleAccordion(this)">
-        Консультації з харчування під програму ретриту
-        <span class="accordion-arrow">▼</span>
-      </button>
-      <div class="accordion-body">
-        Допомагаю організаторам підібрати харчування яке підсилює програму: детокс, відновлення, енергія, глибока робота.
+        Організація та приготування їжі для великих подій від 50 до 100 людей. Сезонне меню з локальних продуктів, швидка і злагоджена робота команди, логістика на великій локації. Підходить для фестивалів, таборів, масових заходів.
       </div>
     </div>
   </div>
 </section>
 
-<!-- APPROACH -->
-<section class="approach-section">
-  <div class="container">
-    <div class="approach-grid">
-      <div class="approach-img">
-        <img src="https://raw.githubusercontent.com/KseniiaEseniia/nakuhni-calendar/main/IMG_7118.jpg" alt="Ксенія готує" loading="lazy">
-      </div>
-      <div>
-        <div class="about-label">Як я будую меню</div>
-        <div class="approach-text">
-          <p>Меню для мене — це розклад дня, написаний смаком.</p>
-          <p>Я підбираю страви так, щоб вони були в гармонії з програмою: легкі у дні активностей, поживні у дні глибокої роботи, освіжаючі у спеку.</p>
-          <p>Використовую ведичні спеції — вони не просто смак, вони стан. Асафетида, куркума, коріандр, зіра — кожна спеція має свій вплив на тіло і настрій.</p>
-          <p>Перед кожною подією я дізнаюсь про харчові обмеження, алергії, цілі учасників — і будую меню навколо цього.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- DELEGATE -->
 <section class="delegate-section">
@@ -609,7 +621,7 @@
         <li>розробка меню під концепцію ретриту (з урахуванням сезону, формату, бюджету, програми та особливостей групи)</li>
         <li>прорахунок закупівель і складання списків продуктів</li>
         <li>виїзд на закупки і повна логістика до локації</li>
-        <li>організація кухонного процесу на локації</li>
+        <li>організація кухонного процесу на локації (техніка, посуд, асистент)</li>
         <li>повне приготування страв</li>
         <li>естетична подача (фуршет / загальна сервіровка)</li>
         <li>підтримка чистоти на кухні в процесі роботи</li>
@@ -623,12 +635,11 @@
 <section class="pricing-about-section">
   <div class="container">
     <div class="pricing-about-inner">
-      <div class="delegate-label">Вартість</div>
-      <h2 class="delegate-title">Як рахується<br>робочий день</h2>
+      <div class="pricing-section-label">Важливі деталі</div>
       <div class="pricing-about-text">
         <p>Я не ділю день на прийом їжі. Навіть якщо група приїжджає на обід першого дня — це повний робочий день, бо я починаю підготовку зранку.</p>
         <p>Те саме стосується останнього дня — генеральне прибирання та здача простору теж входять у мій робочий день.</p>
-        <p>Для формату <strong>3 доби · 3 прийоми їжі · 12 гостей</strong> — мій орієнтир:</p>
+        <p>Для формату <strong>3 доби · 3 прийоми їжі · 5–8 гостей</strong> — мій орієнтир:</p>
       </div>
       <div class="pricing-highlight">
         <span class="pricing-highlight-price">$180</span>
