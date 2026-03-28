@@ -950,7 +950,12 @@
   // =====================
   // Load dates from localStorage, fallback to defaults
   const defaultDates = {
-   
+  "2026-5-13": "pending",
+  "2026-5-14": "pending",
+  "2026-5-15": "pending",
+  "2026-5-16": "pending",
+  "2026-5-17": "pending"
+    
   };
   let markedDates = JSON.parse(localStorage.getItem('nakuhni_dates') || 'null') || {...defaultDates};
 
