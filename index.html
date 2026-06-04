@@ -1176,7 +1176,7 @@
 
   // Build 6 months
   const container = document.getElementById('months-container');
-  for (let i = 1; i < 7; i++) {
+  for (let i = 0; i < 6; i++) {
     const d = new Date(today.getFullYear(), today.getMonth() + i, 1);
     const block = buildMonth(d.getFullYear(), d.getMonth() + 1);
     if (i === 0) block.classList.add('open');
@@ -1372,7 +1372,7 @@
       openMonths.add(`${b.dataset.year}-${b.dataset.month}`);
     });
     c.innerHTML = '';
-    for (let i = 1; i < 7; i++) {
+    for (let i = 0; i < 6; i++) {
       const date = new Date(today.getFullYear(), today.getMonth() + i, 1);
       const y = date.getFullYear(), mo = date.getMonth() + 1;
       const block = buildMonth(y, mo);
